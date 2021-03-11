@@ -1,0 +1,14 @@
+name: "."
+title: "Dylan Glave"
+description: |
+  Dylan Glave
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "Boomer"
+      href: bommer.html
+output: distill::distill_article
