@@ -12,6 +12,5 @@ output:
   postcards::trestles
 site: distill::distill_website
 ---
- 
 
 I am a science communicator, completing my Master's degree in Environmental Management and Science in Santa Barbara. My current work looks at management trade-offs within co-managed fisheries. These days, my days off are filled primarily with yoga and food.  
