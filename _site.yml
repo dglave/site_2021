@@ -9,6 +9,9 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Boomer"
-      href: bommer.html
+    - text: "Code"
+      href: blog.html
+    - text: "Resume"
+      href: resume_distill.pdf
 output: distill::distill_article
+theme: theme.css

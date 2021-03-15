@@ -8,6 +8,7 @@ author:
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: code
 ---
 
 ```{r setup, include=FALSE}
@@ -58,7 +59,7 @@ lter_raw <- read_csv("sbc_lter_registered_stream_chemistry.csv") %>%
   mutate(spec_cond_uSpercm = replace(spec_cond_uSpercm, 
                         spec_cond_uSpercm %in% c("-999.0", "-999"),
                         NA)) %>% 
-  drop_na()
+  drop_na() 
   
 ```
 

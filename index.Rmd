@@ -1,20 +1,17 @@
 ---
 title: "Dylan Glave"
-image: "tobi.jpg"
+image: "sur.JPG"
 links:
   - label: LinkedIn
-    url: "https://linkedin.com/"
-  - label: Twitter
-    url: "https://twitter.com/"
+    url: "https://www.linkedin.com/in/dylan-glave-8b0358b4/"
   - label: GitHub
-    url: "https://github.com/"
+    url: "https://github.com/dglave"
   - label: Email
-    url: "mailto:email@email.com"
+    url: "mailto:glave@ucsb.edu"
 output:
-  postcards::jolla
+  postcards::trestles
 site: distill::distill_website
 ---
  
-I am a classically trained data scientist living in the San Francisco Bay Area. 
-Currently I work on the Oculus team at Facebook. I love talking about baseball, 
-true crime podcasts, and causal inference.
+
+I am a science communicator, completing my Master's degree in Environmental Management and Science in Santa Barbara. My current work looks at management trade-offs within co-managed fisheries. These days, my days off are filled primarily with yoga and food.  

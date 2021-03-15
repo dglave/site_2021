@@ -86,9 +86,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>Dylan Glave: Text Analysis</title>
+<title>Dylan Glave: Modeling Logistic Growth of Wild Fish Catch</title>
 
-<meta property="description" itemprop="description" content="Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis."/>
+<meta property="description" itemprop="description" content="Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters."/>
 
 
 <!--  https://schema.org/Article -->
@@ -97,27 +97,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta name="article:author" content="Dylan"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Dylan Glave: Text Analysis"/>
+<meta property="og:title" content="Dylan Glave: Modeling Logistic Growth of Wild Fish Catch"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis."/>
+<meta property="og:description" content="Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Dylan Glave"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Dylan Glave: Text Analysis"/>
-<meta property="twitter:description" content="Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis."/>
+<meta property="twitter:title" content="Dylan Glave: Modeling Logistic Growth of Wild Fish Catch"/>
+<meta property="twitter:description" content="Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters."/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Text Analysis"]},{"type":"character","attributes":{},"value":["Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Dylan"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["03-13-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Modeling Logistic Growth of Wild Fish Catch"]},{"type":"character","attributes":{},"value":["Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters."]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Dylan"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"character","attributes":{},"value":["03-13-2021"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["code"]}]}]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["post-2_files/anchor-4.2.2/anchor.min.js","post-2_files/bowser-1.9.3/bowser.min.js","post-2_files/distill-2.2.21/template.v2.js","post-2_files/figure-html5/unnamed-chunk-6-1.png","post-2_files/figure-html5/unnamed-chunk-8-1.png","post-2_files/header-attrs-2.6.6/header-attrs.js","post-2_files/jquery-1.11.3/jquery.min.js","post-2_files/popper-2.6.0/popper.min.js","post-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","post-2_files/tippy-6.2.7/tippy-light-border.css","post-2_files/tippy-6.2.7/tippy.css","post-2_files/tippy-6.2.7/tippy.umd.min.js","post-2_files/webcomponents-2.0.0/webcomponents.js","ram_dass.pdf"]}
+  {"type":"character","attributes":{},"value":["fish_catch.csv","post-2_files/anchor-4.2.2/anchor.min.js","post-2_files/bowser-1.9.3/bowser.min.js","post-2_files/distill-2.2.21/template.v2.js","post-2_files/figure-html5/unnamed-chunk-2-1.png","post-2_files/figure-html5/unnamed-chunk-3-1.png","post-2_files/figure-html5/unnamed-chunk-6-1.png","post-2_files/figure-html5/unnamed-chunk-7-1.png","post-2_files/figure-html5/unnamed-chunk-8-1.png","post-2_files/header-attrs-2.6.6/header-attrs.js","post-2_files/jquery-1.11.3/jquery.min.js","post-2_files/popper-2.6.0/popper.min.js","post-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","post-2_files/tippy-6.2.7/tippy-light-border.css","post-2_files/tippy-6.2.7/tippy.css","post-2_files/tippy-6.2.7/tippy.umd.min.js","post-2_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2373,7 +2373,7 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Text Analysis","description":"Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis.","authors":[{"author":"Dylan","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-03-13T00:00:00.000+00:00","citationText":"Dylan, 2021"}
+{"title":"Modeling Logistic Growth of Wild Fish Catch","description":"Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters.","authors":[{"author":"Dylan","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-03-13T00:00:00.000+00:00","citationText":"Dylan, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2398,10 +2398,10 @@ d-appendix d-footnote-list a.footnote-backlink {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Text Analysis</h1>
+<h1>Modeling Logistic Growth of Wild Fish Catch</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis.</p></p>
+<p><p>Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters.</p></p>
 </div>
 
 <div class="d-byline">
@@ -2411,136 +2411,182 @@ d-appendix d-footnote-list a.footnote-backlink {
 </div>
 
 <div class="d-article">
-<h4 id="analyzing-text-from-ram-dass-who-are-you-talk-from-1976">Analyzing text from Ram Dass’ “Who Are You” talk from 1976</h4>
-<p>Let’s read in the pdf first, then I’ll clean it up a with with the packages: {stringr} {textxdata} and {pdftools}</p>
+<h5 id="reading-in-data">Reading in Data</h5>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ram_dass_raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://docs.ropensci.org/pdftools/reference/pdftools.html'>pdf_text</a></span><span class='op'>(</span><span class='st'>"ram_dass.pdf"</span><span class='op'>)</span>
-
-<span class='va'>ram_dass_tidy</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>ram_dass_raw</span><span class='op'>)</span> 
-
-<span class='va'>ram_dass_tidy_2</span> <span class='op'>&lt;-</span> <span class='va'>ram_dass_tidy</span> <span class='op'>%&gt;%</span> 
-   <span class='fu'>mutate</span><span class='op'>(</span>text_full <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_split.html'>str_split</a></span><span class='op'>(</span><span class='va'>ram_dass_tidy</span>, pattern <span class='op'>=</span> <span class='st'>"\\n"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>unnest</span><span class='op'>(</span><span class='va'>text_full</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>mutate</span><span class='op'>(</span>text_full <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_trim.html'>str_trim</a></span><span class='op'>(</span><span class='va'>text_full</span><span class='op'>)</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fish_catch</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='fu'><a href='https://here.r-lib.org//reference/here.html'>here</a></span><span class='op'>(</span><span class='st'>"_posts"</span>, <span class='st'>"2021-03-13-post-2"</span>, <span class='st'>"fish_catch.csv"</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/pkg/janitor/man/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>drop_na</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>year</span><span class='op'>)</span>, 
+         wild_catch <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>wild_catch</span><span class='op'>)</span>, 
+         farmed_fish <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>farmed_fish</span><span class='op'>)</span>, 
+         total_fish_production <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>total_fish_production</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
-<p>This text starts with the beginning fo the talk, so we are good on further cleaning via slice, or breaking up by section. That’s pretty nice!</p>
-<h5 id="some-more-cleaning">Some more cleaning</h5>
-Now let’s make it a dataframe, that we know how to wrangle and visualize. At first, it will be pretty much the same as the tidy version from a moment ago.
+<h5 id="exploratory-visualization">Exploratory Visualization</h5>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ram_dass_tokens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>ram_dass_tidy_2</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/unnest_tokens.html'>unnest_tokens</a></span><span class='op'>(</span><span class='va'>word</span>, <span class='va'>text_full</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>word <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_trim.html'>str_trim</a></span><span class='op'>(</span><span class='va'>word</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
- <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>ram_dass_raw</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>three_part_plot</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>fish_catch</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>wild_catch</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"goldenrod"</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>farmed_fish</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"darkblue"</span><span class='op'>)</span> <span class='op'>+</span>
+   <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>total_fish_production</span><span class='op'>)</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+
+<span class='va'>three_part_plot</span>
+</code></pre>
+</div>
+</details>
+<p><img src="post-2_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<p>Here we see: - Wild caught fish looks similar to a logistic equation. - Farmed fish looks exponential, with an X- intercept around 1960 - Total fish looks somewhere between logisitc and linear, but the late arrival of farmed fish gives this line a lot of noise.</p>
+Let’s also check the log of wild catch
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>wild_catch_plot</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>fish_catch</span><span class='op'>)</span><span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>wild_catch</span><span class='op'>)</span><span class='op'>)</span>, 
+             color <span class='op'>=</span> <span class='st'>"darkblue"</span><span class='op'>)</span>
+
+<span class='va'>wild_catch_plot</span>
+</code></pre>
+</div>
+</details>
+<p><img src="post-2_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<h5 id="logistic-growth-equation">Logistic Growth equation</h5>
+<p><strong><span class="math inline">\(P(t)=\frac{K}{1+Ae^{-rt}}\)</span></strong>, where</p>
+<ul>
+<li><span class="math inline">\(K\)</span> is the carrying capacity</li>
+<li><span class="math inline">\(A\)</span> is <span class="math inline">\(\frac{K-P_0}{P_0}\)</span></li>
+<li><span class="math inline">\(r\)</span> is the growth rate constant</li>
+</ul>
+<p>Here, our actual variable from the data is time (t.) This we won’t change. The other parameters we will try and estimate!</p>
+To get an accurate time (t) measurement, let’s set the year 1950 as 0. This mean 1965 with give a t = 20 value.
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>fish_time</span> <span class='op'>&lt;-</span> <span class='va'>fish_catch</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'>mutate</span><span class='op'>(</span>time <span class='op'>=</span> <span class='va'>year</span><span class='op'>-</span><span class='fl'>1950</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<h5 id="building-a-model-with-a-year-based-df">Building a model with a year-based df</h5>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>df_nls</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/nls.html'>nls</a></span><span class='op'>(</span><span class='va'>wild_catch</span> <span class='op'>~</span> <span class='va'>K</span><span class='op'>/</span><span class='op'>(</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='va'>A</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>r</span><span class='op'>*</span><span class='va'>time</span><span class='op'>)</span><span class='op'>)</span>,
+              data <span class='op'>=</span> <span class='va'>fish_time</span>,
+              start <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>K <span class='op'>=</span> <span class='fl'>180</span>, A <span class='op'>=</span> <span class='fl'>17</span>, r <span class='op'>=</span><span class='fl'>0.17</span><span class='op'>)</span>,
+              trace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>376176.7 :  180.00  17.00   0.17
+110768.8 :  135.0807130   7.0419441   0.1334972
+3964.868 :  91.88922105  2.69344828  0.07638427
+1805.267 :  99.71492065  3.76423320  0.06185382
+1372.821 :  98.99301866  4.26099659  0.07106758
+1365.275 :  100.37772693   4.30564831   0.06961349
+1365.145 :  100.25440852   4.31747468   0.06992858
+1365.143 :  100.28205288   4.31612279   0.06988004
+1365.143 :  100.27781732   4.31636117   0.06988787
+1365.143 :  100.27849855   4.31632377   0.06988662</code></pre>
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>df_nls</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>
+Formula: wild_catch ~ K/(1 + A * exp(-r * time))
+
+Parameters:
+   Estimate Std. Error t value Pr(&gt;|t|)    
+K 1.003e+02  2.734e+00   36.68   &lt;2e-16 ***
+A 4.316e+00  2.929e-01   14.73   &lt;2e-16 ***
+r 6.989e-02  4.648e-03   15.04   &lt;2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 4.77 on 60 degrees of freedom
+
+Number of iterations to convergence: 9 
+Achieved convergence tolerance: 5.634e-06</code></pre>
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>p_predict</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>df_nls</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>This model gives us: - <span class="math inline">\(K = 1.003 x 10^2\)</span> - A = 4.316 - r = <span class="math inline">\(6.989 x 10^-2\)</span></p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>p_predict</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>df_nls</span><span class='op'>)</span>
+
+<span class='va'>fish_complete</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>fish_time</span>, <span class='va'>p_predict</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>We get a final equation of:</p>
+<p><strong><span class="math inline">\(P(t)=\frac{100.278}{1+4.316e^{-0.06989t}}\)</span></strong>,</p>
+<p>Alright, this is great information on the logistic growth equation.</p>
+<h5 id="final-visualization">Final Visualization</h5>
+<p>I’ll finish with a complete visualization of this curve, alongside our actual observations.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"> <span class='va'>final_plot</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>fish_complete</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_line</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>p_predict</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>year</span>, y <span class='op'>=</span> <span class='va'>wild_catch</span><span class='op'>)</span>,
+             color <span class='op'>=</span> <span class='st'>"cornflowerblue"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme_bw</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Year"</span>, 
+       y <span class='op'>=</span> <span class='st'>"Wild Fish Catch (Millions of Tons)"</span>, 
+       title <span class='op'>=</span> <span class='st'>"Wild Fish Catch, Predicted v. Actual (1950-2012)"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_x_continuous</span><span class='op'>(</span>breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1950</span>, <span class='fl'>1960</span>, <span class='fl'>1970</span>, <span class='fl'>1980</span>, <span class='fl'>1990</span>, <span class='fl'>2000</span>, <span class='fl'>2010</span><span class='op'>)</span><span class='op'>)</span>
   
-<span class='co'>## filter(!str_detect(word, pattern = "it's")) %&gt;% </span>
+<span class='va'>final_plot</span>
 </code></pre>
 </div>
+</details>
+<p><img src="post-2_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
-<p>Cool! Now every token (word) has it’s own row, in a single column. Let’s count up each word now, and then remove ‘stop words’ from the dataframe.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ram_dass_count</span> <span class='op'>&lt;-</span> <span class='va'>ram_dass_tokens</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>count</span><span class='op'>(</span><span class='va'>word</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>slice</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>:</span><span class='op'>-</span><span class='fl'>11</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"it"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"the"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"you"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<p>We see here that there are some numbers included as words. That’s fine for now!</p>
-Below, I ahve removed all the stopwords using <code>anti_join()</code> It is important that my token column is called “word,” because that’s how my tokens df was able to join (anti-join really,) with the stopwords list stored in dplyr
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ram_dass_filtered</span> <span class='op'>&lt;-</span> <span class='va'>ram_dass_tokens</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>word <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_trim.html'>str_squish</a></span><span class='op'>(</span><span class='va'>word</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stop_words</span><span class='op'>)</span>
-
-   <span class='co'>#   filter(word != "nthe", "it's", "your'e", "nyou") %&gt;% </span>
-  
-<span class='va'>nonstop_count</span> <span class='op'>&lt;-</span> <span class='va'>ram_dass_filtered</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>anti_join</span><span class='op'>(</span><span class='va'>stop_words</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>count</span><span class='op'>(</span><span class='va'>word</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>slice</span><span class='op'>(</span><span class='op'>-</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>11</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"it"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"the"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"you"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"`"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"ouspensky"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>word</span>, pattern <span class='op'>=</span> <span class='st'>"nchannel"</span><span class='op'>)</span><span class='op'>)</span> 
-  
-<span class='co'>### Here I removed the 11 rows that were numbers written in the text. </span>
-</code></pre>
-</div>
-</div>
-I want to see the top 35 words from the talk I’ve also added an <code>angle</code> component that will angle words once they’re visualized, by a ratio of 60:40.
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>top_words</span> <span class='op'>&lt;-</span> <span class='va'>nonstop_count</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>arrange</span><span class='op'>(</span><span class='op'>-</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>slice</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>70</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>mutate</span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span><span class='op'>)</span>, <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<h4 id="word-cloud">Word Cloud</h4>
-Now, Let’s visualize this in a word cloud! I’ve taken the top words from the Ram Dass talk, arranged them according to the most-said words (removing some contractions,) and am creating a word cloud where color and word size are depedent on the total <code>count()</code> of each word.
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>ram_dass_cloud</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>top_words</span>, <span class='fu'>aes</span><span class='op'>(</span>label <span class='op'>=</span> <span class='va'>word</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://lepennec.github.io/ggwordcloud/reference/geom_text_wordcloud.html'>geom_text_wordcloud</a></span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>n</span>,
-                          size <span class='op'>=</span> <span class='va'>n</span>,
-                          angle <span class='op'>=</span> <span class='va'>angle</span><span class='op'>)</span>,
-                      shape <span class='op'>=</span> <span class='st'>"pentagon"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>scale_size_area</span><span class='op'>(</span>max_size <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>scale_color_gradient</span><span class='op'>(</span>low <span class='op'>=</span> <span class='st'>"darkred"</span>, high <span class='op'>=</span> <span class='st'>"seagreen2"</span><span class='op'>)</span>
-  
-
-<span class='va'>ram_dass_cloud</span>
-</code></pre>
-</div>
-<p><img src="post-2_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
-</div>
-<h3 id="part-2-sentiment-analysis-with-ncr">Part 2: Sentiment Analysis with NCR</h3>
-<p>First, I’ll turn my Ram Dass nonstop (without stopwords) dataframe to only include afinn-ranked words. Below, I’ll visualize all words from the talk using the afinn sentiment analysis.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>afinn_ram</span> <span class='op'>&lt;-</span> <span class='va'>ram_dass_filtered</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>inner_join</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/tidytext/man/get_sentiments.html'>get_sentiments</a></span><span class='op'>(</span><span class='st'>"afinn"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>afinn_counts</span> <span class='op'>&lt;-</span> <span class='va'>afinn_ram</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>count</span><span class='op'>(</span><span class='va'>value</span><span class='op'>)</span>
-</code></pre>
-</div>
-</div>
-<h4 id="one-more-visuailzation-lollipop-chart-of-the-sentiment-analysis">One More Visuailzation: Lollipop chart of the Sentiment analysis</h4>
-To visualize the sentiment analysis, I am creating a lollipop chart that shows how many words receive each afinn value: -5 (very negative words) to 5 (very positive words)
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>afinn_viz</span> <span class='op'>&lt;-</span> <span class='fu'>ggplot</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>afinn_counts</span>, <span class='fu'>aes</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>value</span>, y <span class='op'>=</span> <span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_segment</span><span class='op'>(</span> <span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>value</span>, xend<span class='op'>=</span><span class='va'>value</span>, y<span class='op'>=</span><span class='fl'>0</span>, yend<span class='op'>=</span><span class='va'>n</span>, color <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span>, show.legend <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
-   <span class='fu'>geom_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>value</span><span class='op'>)</span>, show.legend <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span> 
-  <span class='fu'>scale_color_gradient</span><span class='op'>(</span>low <span class='op'>=</span> <span class='st'>"darkblue"</span>,
-                        high <span class='op'>=</span> <span class='st'>"gold"</span><span class='op'>)</span> <span class='op'>+</span> 
-  <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>coord_flip</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>labs</span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Afinn Value (From -5 to 5)"</span>,
-                        y <span class='op'>=</span> <span class='st'>"Total Number of Words per Value"</span>,
-       title <span class='op'>=</span> <span class='st'>" Ram Dass' Who Are You talk (1974) Sentiment Analysis"</span><span class='op'>)</span>
-
-<span class='va'>afinn_viz</span>
-</code></pre>
-</div>
-<p><img src="post-2_files/figure-html5/unnamed-chunk-8-1.png" width="624" /></p>
-</div>
-<p><em>All words from Ram Dass’ “Who Are You” talk, based on the Afinn Sentiment Analysis on a scale from negative sentiments (-5) to positive (5)</em></p>
-<p><em>End of Document</em></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p><em>Figure 1: Wild Fish Catch, Predicted v. Actual (1950-2012): The logistic line, shown in black, marks the expected fish catch based on a logistic growth model that uses time (years,) carrying capacity, and intrinsic growth rate. The actual catch data from each year are shown in blue dots. All counts are in millions of tons</em></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2548,6 +2594,15 @@ To visualize the sentiment analysis, I am creating a lollipop chart that shows h
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->

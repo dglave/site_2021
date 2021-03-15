@@ -8,6 +8,7 @@ author:
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: code
 ---
 
 ```{r setup, include=FALSE}
@@ -22,10 +23,10 @@ library(sf)
 #### Whale (Cetation) Raster Work
 
 
-Let's start by reading in the idfferetn .tif files and rasterizing them. We'll try using raster_stack, since there so many layers. 
+Let's start by reading in the different .tif files and rasterizing them. We'll try using raster_stack, since there so many layers. 
 
-```{r}
-my_whale_files <- list.files(path = here("ca_cetaceans"), full.names = TRUE)
+```{r, echo = FALSE}
+my_whale_files <- list.files(path = here("_posts", "2021-03-15-post-3",   "ca_cetaceans"), full.names = TRUE)
 
 
 cetacean_raster <- raster::stack(my_whale_files)

@@ -1,7 +1,7 @@
 ---
-title: "Text Analysis"
+title: "Modeling Logistic Growth of Wild Fish Catch"
 description: |
-  Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis.
+  Surprise, another post about fish! Here, I explore nonlinear least squares (NLS) as a method of predicting fish growth paramters.
 author:
   - name: Dylan
     url: {}
@@ -9,147 +9,126 @@ date: 03-13-2021
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: code
 ---
-
-```{r setup, include=FALSE, warning= FALSE, message=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```{r setup, include=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
-library(tidytext)
-library(pdftools)
-library(textdata)
-library(ggwordcloud)
-library(tm)
-library(stringr)
+library(janitor)
+library(here)
+library(boot)
+library(gt)
+library(patchwork)
+library(broom)
+library(nlstools)
+```
+
+
+
+##### Reading in Data
+
+```{r, echo = FALSE}
+fish_catch <- read_csv(here("_posts", "2021-03-13-post-2", "fish_catch.csv"), skip = 2) %>% 
+  clean_names() %>% 
+  drop_na() %>% 
+  mutate(year = as.numeric(year), 
+         wild_catch = as.numeric(wild_catch), 
+         farmed_fish = as.numeric(farmed_fish), 
+         total_fish_production = as.numeric(total_fish_production))
+```
+
+
+##### Exploratory Visualization
+
+```{r, echo = FALSE}
+three_part_plot <- ggplot(data = fish_catch) +
+  geom_line(aes(x = year, y = wild_catch), color = "goldenrod") +
+   geom_line(aes(x = year, y = farmed_fish), color = "darkblue") +
+   geom_line(aes(x = year, y = total_fish_production), color = "red")
+
+three_part_plot
+```
+Here we see:
+- Wild caught fish looks similar to a logistic equation. 
+- Farmed fish looks exponential, with an X- intercept around 1960
+- Total fish looks somewhere between logisitc and linear, but the late arrival of farmed fish gives this line a lot of noise. 
+
+
+Let's also check the log of wild catch
+```{r, echo = FALSE}
+wild_catch_plot <- ggplot(data = fish_catch)+
+  geom_line(aes(x = year, y = log(wild_catch)), 
+             color = "darkblue")
+
+wild_catch_plot
+```
+
+
+##### Logistic Growth equation
+
+**$P(t)=\frac{K}{1+Ae^{-rt}}$**, where
+
+- $K$ is the carrying capacity
+- $A$ is $\frac{K-P_0}{P_0}$
+- $r$ is the growth rate constant
+
+Here, our actual variable from the data is time (t.) This we won't change. The other parameters we will try and estimate!
+
+To get an accurate time (t) measurement, let's set the year 1950 as 0. This mean 1965 with give a t = 20 value. 
+```{r, echo = TRUE}
+fish_time <- fish_catch %>% 
+  mutate(time = year-1950)
+```
+
+
+##### Building a model with a year-based df 
+
+```{r, echo = TRUE}
+df_nls <- nls(wild_catch ~ K/( 1 + A*exp(-r*time)),
+              data = fish_time,
+              start = list(K = 180, A = 17, r =0.17),
+              trace = TRUE)
+
+ summary(df_nls)
+
+p_predict <- predict(df_nls)
+```
+
+This model gives us:
+- $K = 1.003 x 10^2$
+- A = 4.316
+- r = $6.989 x 10^-2$
+
+
+```{r, echo=FALSE}
+p_predict <- predict(df_nls)
+
+fish_complete <- data.frame(fish_time, p_predict)
 
 ```
 
-#### Analyzing text from Ram Dass' "Who Are You" talk from 1976
 
+We get a final equation of: 
 
-Let's read in the pdf first, then I'll clean it up a with with the packages: {stringr} {textxdata} and {pdftools}
+**$P(t)=\frac{100.278}{1+4.316e^{-0.06989t}}$**,
 
-```{r}
-ram_dass_raw <- pdf_text("ram_dass.pdf")
+Alright, this is great information on the logistic growth equation. 
 
-ram_dass_tidy <- data.frame(ram_dass_raw) 
+##### Final Visualization
 
-ram_dass_tidy_2 <- ram_dass_tidy %>% 
-   mutate(text_full = str_split(ram_dass_tidy, pattern = "\\n")) %>% 
-  unnest(text_full) %>%
-  mutate(text_full = str_trim(text_full))
+I'll finish with a complete visualization of this curve, alongside our actual observations. 
 
+```{r, echo = TRUE}
+ final_plot <- ggplot(fish_complete) +
+  geom_line(aes(x = year, y = p_predict)) +
+  geom_point(aes(x = year, y = wild_catch),
+             color = "cornflowerblue") +
+  theme_bw() +
+  labs(x = "Year", 
+       y = "Wild Fish Catch (Millions of Tons)", 
+       title = "Wild Fish Catch, Predicted v. Actual (1950-2012)") +
+  scale_x_continuous(breaks = c(1950, 1960, 1970, 1980, 1990, 2000, 2010))
   
+final_plot
 ```
-
-This text starts with the beginning fo the talk, so we are good on further cleaning via slice, or breaking up by section. That's pretty nice!
-
-##### Some more cleaning
-Now let's make it a dataframe, that we know how to wrangle and visualize. At first, it will be pretty much the same as the tidy version from a moment ago. 
-```{r}
-
-ram_dass_tokens <- data.frame(ram_dass_tidy_2) %>% 
-  unnest_tokens(word, text_full) %>% 
-  mutate(word = str_trim(word)) %>% 
- dplyr::select(-ram_dass_raw)
-  
-## filter(!str_detect(word, pattern = "it's")) %>% 
-```
-
-Cool! Now every token (word) has it's own row, in a single column. 
-Let's count up each word now, and then remove 'stop words' from the dataframe. 
-
-```{r}
-ram_dass_count <- ram_dass_tokens %>% 
-  count(word) %>% 
-  slice(-1:-11) %>% 
-  filter(!str_detect(word, pattern = "it")) %>% 
-  filter(!str_detect(word, pattern = "the")) %>% 
-  filter(!str_detect(word, pattern = "you"))
-  
-```
-We see here that there are some numbers included as words. That's fine for now! 
-
-Below, I ahve removed all the stopwords using `anti_join()` It is important that my token column is called "word," because that's how my tokens df was able to join (anti-join really,) with the stopwords list stored in dplyr
-```{r}
-ram_dass_filtered <- ram_dass_tokens %>% 
-  mutate(word = str_squish(word)) %>% 
-  anti_join(stop_words)
-
-   #   filter(word != "nthe", "it's", "your'e", "nyou") %>% 
-  
-nonstop_count <- ram_dass_filtered %>% 
-  anti_join(stop_words) %>% 
-  count(word) %>% 
-  slice(-(1:11)) %>% 
-    filter(!str_detect(word, pattern = "it")) %>% 
-  filter(!str_detect(word, pattern = "the")) %>% 
-  filter(!str_detect(word, pattern = "you")) %>% 
-   filter(!str_detect(word, pattern = "`")) %>%
-   filter(!str_detect(word, pattern = "ouspensky")) %>% 
-   filter(!str_detect(word, pattern = "nchannel")) 
-  
-### Here I removed the 11 rows that were numbers written in the text. 
-```
-
-
-I want to see the top 35 words from the talk
-I've also added an `angle` component that will angle words once they're visualized, by a ratio of 60:40. 
-```{r}
-top_words <- nonstop_count %>% 
-  arrange(-n) %>% 
-  slice(1:70) %>% 
-  mutate(angle = 45 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
-```
-
-#### Word Cloud
-Now, Let's visualize this in a word cloud!
-I've taken the top words from the Ram Dass talk, arranged them according to the most-said words (removing some contractions,) and am creating a word cloud where color and word size are depedent on the total `count()` of each word. 
-```{r}
-ram_dass_cloud <- ggplot(data = top_words, aes(label = word)) +
-  geom_text_wordcloud(aes(color = n,
-                          size = n,
-                          angle = angle),
-                      shape = "pentagon") +
-  scale_size_area(max_size = 9) +
-  theme_minimal() +
-    scale_color_gradient(low = "darkred", high = "seagreen2")
-  
-
-ram_dass_cloud
-```
-
-### Part 2: Sentiment Analysis with NCR
-
-First, I'll turn my Ram Dass nonstop (without stopwords) dataframe to only include afinn-ranked words.
-Below, I'll visualize all words from the talk using the afinn sentiment analysis.
-
-```{r}
-afinn_ram <- ram_dass_filtered %>% 
-  inner_join(get_sentiments("afinn"))
-
-afinn_counts <- afinn_ram %>% 
-  count(value)
-``` 
-
-
-#### One More Visuailzation: Lollipop chart of the Sentiment analysis
-To visualize the sentiment analysis, I am creating a lollipop chart that shows how many words receive each afinn value:
--5 (very negative words) to 5 (very positive words)
-```{r}
-afinn_viz <- ggplot(data = afinn_counts, aes(x = value, y = n)) +
-  geom_segment( aes(x=value, xend=value, y=0, yend=n, color = value), show.legend = FALSE) +
-   geom_point(aes(color = value), show.legend = FALSE) + 
-  scale_color_gradient(low = "darkblue",
-                        high = "gold") + 
-  theme_minimal() +
-  coord_flip() +
-  labs(x = "Afinn Value (From -5 to 5)",
-                        y = "Total Number of Words per Value",
-       title = " Ram Dass' Who Are You talk (1974) Sentiment Analysis")
-
-afinn_viz
-```
-
- *All words from Ram Dass' "Who Are You" talk, based on the Afinn Sentiment Analysis on a scale from negative sentiments (-5) to positive (5)*
-
-*End of Document*
+*Figure 1: Wild Fish Catch, Predicted v. Actual (1950-2012): The logistic line, shown in black, marks the expected fish catch based on a logistic growth model that uses time (years,) carrying capacity, and intrinsic growth rate. The actual catch data from each year are shown in blue dots. All counts are in millions of tons*

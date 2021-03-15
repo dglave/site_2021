@@ -3,18 +3,31 @@
     {
       "path": "about.html",
       "title": "About this site",
-      "description": "Some additional details about the website",
+      "description": "This site is in its infancy!\n   I have built this initial site to display my coding experience in R and RStudio, as I continue to expand the site, you can check back in as I fill the website with professional and explorative components",
+      "author": [],
+      "contents": "\nDeliverables from my Master’s thesis (Decision-making guide and Institutional Analysis)\nFishery Compliance Data Visualization\nEdited Underwater Photography\nA Communication Capstone piece\nAn interactive App on the U.S. West Coast fisheries\nExploratory video editing\n\n\n\n",
+      "last_modified": "2021-03-15T15:43:16-07:00"
+    },
+    {
+      "path": "blog.html",
+      "title": "Code Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2021-03-11T07:40:24-08:00"
+      "last_modified": "2021-03-15T15:43:19-07:00"
     },
     {
       "path": "index.html",
       "title": "Dylan Glave",
       "author": [],
-      "contents": "\n\n          \n          \n          Dylan Glave\n          \n          \n          Home\n          About\n          Boomer\n          ☰\n          \n          \n      \n        \n          \n            \n              \n            \n              Dylan Glave\n            \n            \n              \n                \n                    \n                      \n                        LinkedIn\n                      \n                    \n                  \n                                    \n                    \n                      \n                        Twitter\n                      \n                    \n                  \n                                    \n                    \n                      \n                        GitHub\n                      \n                    \n                  \n                                    \n                    \n                      \n                        Email\n                      \n                    \n                  \n                                  \n            \n          \n        \n        \n        \n          \n            I am a classically trained data scientist living in the San Francisco Bay Area. Currently I work on the Oculus team at Facebook. I love talking about baseball, true crime podcasts, and causal inference.\n          \n        \n      \n    \n\n    \n      \n        \n          \n            \n              \n            \n              Dylan Glave\n            \n            \n              \n                \n                                    \n                    \n                      LinkedIn\n                    \n                  \n                                    \n                    \n                      Twitter\n                    \n                  \n                                    \n                    \n                      GitHub\n                    \n                  \n                                    \n                    \n                      Email\n                    \n                  \n                                  \n              \n            \n            \n              I am a classically trained data scientist living in the San Francisco Bay Area. Currently I work on the Oculus team at Facebook. I love talking about baseball, true crime podcasts, and causal inference.\n            \n        \n      \n    \n\n    \n    \n    ",
-      "last_modified": "2021-03-11T07:40:25-08:00"
+      "contents": "\n\n          \n          \n          Dylan Glave\n          \n          \n          Home\n          About\n          Code\n          Resume\n          ☰\n          \n          \n      \n        \n          \n            \n              \n            \n              Dylan Glave\n            \n            \n              \n                \n                    \n                      \n                        LinkedIn\n                      \n                    \n                  \n                                    \n                    \n                      \n                        GitHub\n                      \n                    \n                  \n                                    \n                    \n                      \n                        Email\n                      \n                    \n                  \n                                  \n            \n          \n        \n        \n        \n          \n            I am a science communicator, completing my Master’s degree in Environmental Management and Science in Santa Barbara. My current work looks at management trade-offs within co-managed fisheries. These days, my days off are filled primarily with yoga and food.\n          \n        \n      \n    \n\n    \n      \n        \n          \n            \n              \n            \n              Dylan Glave\n            \n            \n              \n                \n                                    \n                    \n                      LinkedIn\n                    \n                  \n                                    \n                    \n                      GitHub\n                    \n                  \n                                    \n                    \n                      Email\n                    \n                  \n                                  \n              \n            \n            \n              I am a science communicator, completing my Master’s degree in Environmental Management and Science in Santa Barbara. My current work looks at management trade-offs within co-managed fisheries. These days, my days off are filled primarily with yoga and food.\n            \n        \n      \n    \n\n    \n    \n    ",
+      "last_modified": "2021-03-15T15:43:19-07:00"
+    },
+    {
+      "path": "word_cloud.html",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2021-03-15T15:43:20-07:00"
     }
   ],
-  "collections": []
+  "collections": ["posts/posts.json"]
 }

@@ -1,10 +1,17 @@
 ---
 title: "About this site"
 description: |
-  Some additional details about the website
+ This site is in its infancy!
+    I have built this initial site to display my coding experience in R and RStudio, as I continue to expand the site, you can check back in as I fill the website with professional and explorative components
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+- Deliverables from my Master's thesis (Decision-making guide and Institutional Analysis)
+- Fishery Compliance Data Visualization
+- Edited Underwater Photography
+- A Communication Capstone piece
+- An interactive App on the U.S. West Coast fisheries
+- Exploratory video editing

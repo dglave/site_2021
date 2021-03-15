@@ -111,7 +111,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Clustering Data into Dendograms"]},{"type":"character","attributes":{},"value":["I've worked with several variations of data clsutering, and have seen that heirarchical clustering with dendrograms can communicate multivariate data to wide audience. \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Dylan"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"character","attributes":{},"value":["03-15-2021"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","output","date"]}},"value":[{"type":"character","attributes":{},"value":["Clustering Data into Dendograms"]},{"type":"character","attributes":{},"value":["I've worked with several variations of data clsutering, and have seen that heirarchical clustering with dendrograms can communicate multivariate data to wide audience. \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Dylan"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","code_folding"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["code"]}]}]},{"type":"character","attributes":{},"value":["03-15-2021"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1481,6 +1481,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h5 id="heirarchical-clustering">Heirarchical Clustering</h5>
 <p>Reading in the LTER data</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>lter_raw</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>"sbc_lter_registered_stream_chemistry.csv"</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>mutate</span><span class='op'>(</span>tpc_uM <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>tpc_uM</span>, 
@@ -1513,12 +1517,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <span class='fu'>mutate</span><span class='op'>(</span>spec_cond_uSpercm <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/replace.html'>replace</a></span><span class='op'>(</span><span class='va'>spec_cond_uSpercm</span>, 
                         <span class='va'>spec_cond_uSpercm</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"-999.0"</span>, <span class='st'>"-999"</span><span class='op'>)</span>,
                         <span class='cn'>NA</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'>drop_na</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'>drop_na</span><span class='op'>(</span><span class='op'>)</span> 
 </code></pre>
 </div>
+</details>
 </div>
 <p>Now that we’ve tediously switched -999 into NAs, lets make a summary table by site.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>lter_summary</span> <span class='op'>&lt;-</span> <span class='va'>lter_raw</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>site_code</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -1541,25 +1550,36 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>lter_scaled</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>lter_summary</span><span class='op'>$</span><span class='va'>site_code</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>Now, let’s find the euclidian distance</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>euc_distance</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/factoextra/man/dist.html'>dist</a></span><span class='op'>(</span><span class='va'>lter_scaled</span>, method <span class='op'>=</span> <span class='st'>"euclidean"</span><span class='op'>)</span>
 
 <span class='co'># euc_distance</span>
 </code></pre>
 </div>
+</details>
 </div>
 <h5 id="visualizing-clusters">Visualizing Clusters</h5>
 <p>It’s cool to see those distances, now let’s cluster and plot them!</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>hc_complete</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></span><span class='op'>(</span><span class='va'>euc_distance</span>, method <span class='op'>=</span> <span class='st'>"complete"</span><span class='op'>)</span>
 
  <span class='va'>hc_complete</span>
 </code></pre>
 </div>
+</details>
 <pre><code>
 Call:
 hclust(d = euc_distance, method = &quot;complete&quot;)
@@ -1567,11 +1587,20 @@ hclust(d = euc_distance, method = &quot;complete&quot;)
 Cluster method   : complete 
 Distance         : euclidean 
 Number of objects: 6 </code></pre>
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>hc_complete</span>, cex <span class='op'>=</span> <span class='fl'>0.6</span>, hang <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span> 
 </code></pre>
 </div>
+</details>
 <img src="clustering-data-into-dendograms_files/figure-html5/unnamed-chunk-4-1.png" width="624" />
+<details>
+<summary>
+code
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/ggdendro/man/ggdendrogram.html'>ggdendrogram</a></span><span class='op'>(</span><span class='va'>hc_complete</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'>theme_minimal</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
@@ -1580,6 +1609,7 @@ Number of objects: 6 </code></pre>
        y <span class='op'>=</span> <span class='st'>"Height"</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <p><img src="clustering-data-into-dendograms_files/figure-html5/unnamed-chunk-4-2.png" width="624" /></p>
 </div>
 <p><em>Figure 1: Different Sites in Santa Barbara are clustered together, based on water chemistry variables in NH4 (uM) and TSS (mg per Liter). In the dendrogram, we see how multivariate chemistry of different sites is relatively similar. The closer two sites are in the dendrogram legs, the more similar their chemistry is across the range of variables. Height shows us how similar clusters are when they merge. Shorter height means more similar clusters.</em></p>

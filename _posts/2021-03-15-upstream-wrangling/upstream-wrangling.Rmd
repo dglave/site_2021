@@ -1,0 +1,209 @@
+---
+title: "Upstream Wrangling"
+description: |
+  I loved this data visualization. The analysis was relatively easy, but introduced me to timeseries data. This sort of post exemplifies the visual style I plan to bring in future work. 
+author:
+  - name: Dylan
+    url: {}
+output:
+  distill::distill_article:
+    self_contained: true
+    code_folding: code
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+library(janitor)
+library(lubridate)
+library(tsibble)
+library(patchwork)
+library(feasts)
+library(slider)
+
+
+
+```
+
+
+## Overview
+
+![NOAA's Historic Fisheries Collection Location: Oregon, Oregon City.](https://upload.wikimedia.org/wikipedia/commons/c/cb/Salmon_leaping_at_Willamette_Falls.jpg)
+-engaging photo
+
+
+### Summary 
+
+The Columbia River Basin watershed is home to several species of salmonids, inlcuding Sockeye, Coho, Jack Coho, Steelhead, and Wild Steelhead.  Columbia River DART (Data Access in Real Time) provides comprehensive population and environmental data for 10 species in multiple survey locations in the basin over the last 100 years.  In this report, we utilize the DART data to visualize population and adult passage trends for Coho, Jack Coho, and Steelhead in the Willamette Falls region.  
+
+
+
+
+
+
+
+-map of fish ladder
+
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE}
+
+# Read in data
+fish_raw <- read_csv(here("_posts", "2021-03-15-upstream-wrangling", "data", "willamette_fish_passage.csv"))
+# Make a subset with coho, steelhead, jack coho
+
+fish_sub <- fish_raw %>% 
+  clean_names() %>% 
+  select(project, date, coho, jack_coho, steelhead) 
+
+# Create time series
+fish_ts <- fish_sub %>% 
+  mutate(date = mdy(date)) %>% 
+  as_tsibble(key = NULL, index = date)
+
+```
+
+## Visualizations {.tabset}
+
+### Time Series
+
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE, fig.align = "center"}
+
+# Tab 1 - time series graph
+
+# Replace na values with 0
+fish_ts_na <- fish_ts %>% 
+  replace(is.na(.), 0)
+
+# Create ts graph, but in separate panels
+ts_coho <- ggplot(data = fish_ts_na) +
+  geom_line(aes(x = date, y = coho), color = "red") +
+  labs(y = "Coho Count", x = "Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+
+ts_steelhead <- ggplot(data = fish_ts_na) +
+  geom_line(aes(x = date, y = steelhead), color = "blue") +
+  labs(y = "Steelhead Count", x = "Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+
+ts_jack_coho <- ggplot(data = fish_ts_na) +
+  geom_line(aes(x = date, y = jack_coho), color = "green") +
+  labs(y = "Jack Coho Count", x = "Year") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+
+library(patchwork)
+
+ts_coho | ts_steelhead | ts_jack_coho 
+
+```
+
+**Figure 1.** Shows visual counts of Coho (red),Steelhead (blue), and Jack Coho (green) in adult passages in the Willamette Falls Columbia River DART survey location. Observations were taken daily from 2001 to 2010.  
+
+#### Time Series Takeaways 
+
+- There appears to be seasonality for all three fish species (Coho, Steelhead, and Jack Coho).
+
+- Steelhead and Jack Coho counts remain relatively stable throughout the time period, whereas Coho counts increased and peaked toward the end of the time period.
+
+
+*Data*: Columbia River Basin DART Adult Passage Graphics & Text | Columbia Basin Research. http://www.cbr.washington.edu/dart/query/adult_graph_text.
+
+
+
+### Seasonplots
+
+#### **Figure 2.** Daily Counts of Coho, Jack Coho, and Steelhead at Willamette Falls
+```{r, echo = TRUE, warning = FALSE, message = FALSE, include = FALSE}
+# Make subset that puts species into one column
+annual_fish <- fish_ts %>%
+  pivot_longer(`coho`:`steelhead`,
+               names_to = "species",
+               values_to = "value")
+
+# Plot to clarify
+ggplot(data = annual_fish, aes(x = date, y = value)) +
+  geom_line(aes(color = species))
+```
+
+
+```{r, echo = TRUE, warning = FALSE, message = FALSE, fig.align = "center"}
+# Create Seasonplot showing value (counts) for each day over entire span of data, store as object
+final <- annual_fish %>% 
+  gg_season(y = value) +  
+  facet_wrap(~species, ncol = 1, scales = "free") %>% 
+  labs(x = "Month", y = "Counts")
+
+final
+
+
+```
+
+**Figure 2.** shows visual counts of Coho, Jack Coho, and Steelhead in adult passages in the Willamette Falls Columbia River DART survey location. Observations were taken daily from 2001 to 2010.  
+
+
+
+#### Seasonplots Takeaways
+
+- On average, Coho and Jack Coho use the Willamette Falls fish passages only during the Fall months, while Steelhead seem to use them from the early spring into mid-summer.
+
+- The Coho population rapidly increases in later years (2009-2010), with peak annual visual counts in 2010 more than triple those in 2008. This upward trend is seen on smaller levels in the Jack Coho and Steelhead populations.  
+
+
+
+
+
+
+
+*Data*: Columbia River Basin DART Adult Passage Graphics & Text | Columbia Basin Research. http://www.cbr.washington.edu/dart/query/adult_graph_text.
+
+
+### Annual counts
+
+
+#### From Here, I'll make a plot of annual salmon and steelhead runs by year. 
+
+
+```{r, echo=TRUE}
+annual_fish <- fish_ts %>%
+  mutate(year = year(date)) %>% 
+pivot_longer(`coho`:`steelhead`,
+               names_to = "species",
+               values_to = "value") %>% 
+  group_by(species) %>% 
+index_by(year) %>% 
+summarize(total = sum(value, na.rm = TRUE))
+
+```
+
+Now, let's plot this!
+
+```{r, echo=TRUE}
+ggplot(data = annual_fish, aes(x = year, y = total, color = species)) + 
+  geom_line() +
+ scale_color_manual(values=c("deeppink2", "blue2", "goldenrod")) +
+  geom_point(size = 2,
+             alpha = 0.8) +
+  scale_x_continuous(breaks = c(2000, 2002, 2004, 2006, 2008, 2010)) +
+  labs( x = "Year",
+        y = "Annual Fish Observations",
+        color = "Species",
+        title = "Willamette Falls Annual Salmonoid Counts") +
+  theme_bw()
+  
+
+```
+*Figure 3: Counts for three salmonoid species, totaled annually, from the Willamette Falls observation site.*
+
+- Coho and Steelhead both had large jumps in abundance in the late 2000s. This occurred for Coho in 2008, and Steelhead in 2009. 
+- While Steelhead showed the highest abundance in all years but one (2009,) it is also changed more sporadically than the other two fish species. 
+- It may be worth looking at older data, to see if Jack Coho abundance was ever on par with the other two fish. It may have declined heavily at some point. Alternatively, all 3 species mau have declines prior to 2000, and only Jack Coho has not rebounded.
+
+
+
+*Data*: Columbia River Basin DART Adult Passage Graphics & Text | Columbia Basin Research. http://www.cbr.washington.edu/dart/query/adult_graph_text.
+
