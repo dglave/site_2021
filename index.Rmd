@@ -1,6 +1,6 @@
 ---
 title: "Dylan Glave"
-image: "sur.JPG"
+image: "bigsur.JPG"
 links:
   - label: LinkedIn
     url: "https://www.linkedin.com/in/dylan-glave-8b0358b4/"
