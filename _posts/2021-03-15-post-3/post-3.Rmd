@@ -1,0 +1,108 @@
+---
+title: "Spatial Data Exploration"
+description: |
+  Here is my first exploration with raster data. I plan to explore the possibilities of Marine Spatial Planning moving forward, so why not start with whales and dolphins?
+author:
+  - name: Dylan
+    url: {}
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning= FALSE)
+library(tidyverse)
+library(raster)
+library(here)
+library(rnaturalearth)
+library(sf)
+```
+
+#### Whale (Cetation) Raster Work
+
+
+Let's start by reading in the idfferetn .tif files and rasterizing them. We'll try using raster_stack, since there so many layers. 
+
+```{r}
+my_whale_files <- list.files(path = here("ca_cetaceans"), full.names = TRUE)
+
+
+cetacean_raster <- raster::stack(my_whale_files)
+
+# reclassified_stack <- reclassify(cetacean_raster, c(-Inf, 0.59,  0,  0.59,  Inf,  1))
+
+cetacean_presence <- function(x, thresh = 0.6) {
+y <- ifelse(x >= thresh, 1, NA) 
+return(y)
+}
+
+## Calculating whale rasters with the function I made
+whales_in_sea <- calc(cetacean_raster, fun = cetacean_presence)
+
+## Plotting the rasterbrick + function
+plot(whales_in_sea, col = 'lightblue')
+
+## Converting rasterstack to dataframe, and raster_to_points
+
+cetacean_df <- raster::rasterToPoints(whales_in_sea) %>%
+  as.data.frame()
+```
+
+#### Making a *longer* df that lists all cetaceans by species, and them summarizing it. 
+
+I use `pivot_longer` to have a species column with all 35 species, rather than 35 columns (one for each species.)
+
+```{r}
+cetacean_longer_df <- cetacean_df %>% 
+  pivot_longer(cols =!  x:y,
+               names_to = "species",
+               values_to = "value") %>% 
+  group_by(x,y) %>% 
+  summarize(richness = sum(value, na.rm = TRUE))
+```
+
+
+
+#### Bringing in a background layer from the rnaturalearth package.
+This includes a few different things:
+- Bringing in world map data (which includes CA) from `rnaturalearth`
+- Match the crs between this `rnaturalearth` and my `cetacean_raster` stack
+- Map the earth layer to see it
+
+```{r, results='hide'}
+nat_earth_layer <- ne_countries(scale = "medium", returnclass = "sf")
+
+## Checking the crs() of this layer
+st_crs(nat_earth_layer)
+
+## Making sure that the crs of my origional raster stack and the natural earth layer match up. 
+nat_earth_layer <- st_transform(nat_earth_layer, st_crs(cetacean_raster))
+ 
+st_crs(nat_earth_layer)
+
+
+plot(nat_earth_layer)
+```
+
+
+
+#### Plotting the Rasters
+
+We'll start making a plot of the predicted whale sightings
+
+```{r}
+ggplot() +
+  geom_raster(data = cetacean_longer_df, aes(x = x, y = y, fill = richness)) +
+  geom_sf(data = nat_earth_layer) +
+  coord_sf(xlim = c(-125, -115), ylim = c(32,38)) +
+  scale_fill_gradient(high = "red", low = "green") +
+  labs(x = "Expected Whale Sighting per Unit Area",
+       y = "",
+       fill = "Species Richness \n (Cetacean Species per Area)",
+       title = "Expected Cetacean Sitings off California's Coast") +
+  theme_minimal()
+```
+*Figure 1: Above is a map of expected species richness of 35 cetacean species (whales and dolphins) across California's coast. We can see high richness (in red) in the Santa Barbara bight.*
+
+

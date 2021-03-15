@@ -1,0 +1,118 @@
+---
+title: "Clustering Data into Dendograms"
+description: |
+  I've worked with several variations of data clsutering, and have seen that heirarchical clustering with dendrograms can communicate multivariate data to wide audience. 
+author:
+  - name: Dylan
+    url: {}
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+library(NbClust)
+library(cluster)
+library(factoextra)
+library(dendextend)
+library(ggdendro)
+```
+
+##### Heirarchical Clustering 
+
+
+Reading in the LTER data
+
+```{r, echo = TRUE}
+lter_raw <- read_csv("sbc_lter_registered_stream_chemistry.csv") %>% 
+  mutate(tpc_uM = replace(tpc_uM, 
+                        tpc_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(tdp_uM = replace(tdp_uM, 
+                        tdp_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(nh4_uM = replace(nh4_uM, 
+                        nh4_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(no3_uM = replace(no3_uM, 
+                        no3_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(po4_uM = replace(po4_uM, 
+                        po4_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(tdn_uM = replace(tpc_uM, 
+                        tdn_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(tpn_uM = replace(tpn_uM, 
+                        tpn_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(tpp_uM = replace(tpc_uM, 
+                        tpp_uM %in% c("-999.0", "-999"),
+                        NA)) %>% 
+   mutate(tss_mgperLiter = replace(tss_mgperLiter, 
+                        tss_mgperLiter %in% c("-999.0", "-999"),
+                        NA)) %>%
+  mutate(spec_cond_uSpercm = replace(spec_cond_uSpercm, 
+                        spec_cond_uSpercm %in% c("-999.0", "-999"),
+                        NA)) %>% 
+  drop_na()
+  
+```
+
+Now that we've tediously switched -999 into NAs, lets make a summary table by site. 
+
+```{r, echo = TRUE}
+lter_summary <- lter_raw %>% 
+  group_by(site_code) %>% 
+  summarize(nh4_uM = mean(nh4_uM, na.rm = TRUE), 
+            no3_uM = mean(no3_uM, na.rm = TRUE), 
+           po4_uM = mean(po4_uM, na.rm = TRUE),
+            tdn_uM = mean(tdn_uM, na.rm = TRUE),
+           tdp_uM = mean(tdp_uM, na.rm = TRUE),
+           tpc_uM = mean(tpc_uM, na.rm = TRUE),
+           tpn_uM = mean(tpn_uM, na.rm = TRUE),
+           tpp_uM = mean(tpp_uM, na.rm = TRUE),
+           tss_mgperLiter = mean(tss_mgperLiter, na.rm = TRUE),
+            spec_cond_uSpercm = mean(spec_cond_uSpercm, na.rm = TRUE))
+
+lter_scaled <-lter_summary %>% 
+  select(2:11) %>% 
+  scale()
+
+## Bringing the site_codes back into the df, after scaling all the numeric data
+rownames(lter_scaled) <- lter_summary$site_code
+
+```
+
+Now, let's find the euclidian distance 
+
+```{r, echo = TRUE}
+euc_distance <- dist(lter_scaled, method = "euclidean")
+
+# euc_distance
+```
+
+##### Visualizing Clusters
+
+It's cool to see those distances, now let's cluster  and plot them! 
+
+```{r, echo = TRUE}
+hc_complete <- hclust(euc_distance, method = "complete")
+
+ hc_complete
+
+plot(hc_complete, cex = 0.6, hang = -1) 
+
+
+
+ggdendrogram(hc_complete) +
+  theme_minimal() +
+  labs(x = "Water Site Codes",
+       title = "Clustering Santa Barbara Water Chemistry Across Multiple Variables", 
+       y = "Height")
+
+```
+*Figure 1: Different Sites in Santa Barbara are clustered together, based on water chemistry variables in NH4 (uM) and TSS (mg per Liter). In the dendrogram, we see how multivariate chemistry of different sites is relatively similar. The closer two sites are in the dendrogram legs, the more similar their chemistry is across the range of variables. Height shows us how similar clusters are when they merge. Shorter height means more similar clusters.* 

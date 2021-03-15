@@ -1,0 +1,17 @@
+---
+title: "A Coagulating Collection of Code"
+description: |
+  The idea of a "blog" always seemed quite foreign to me. Now that I have code to share with others, a blog seemed like the logical next step. 
+author:
+  - name: Dylan
+date: 03-13-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+

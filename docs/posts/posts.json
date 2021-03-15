@@ -1,0 +1,70 @@
+[
+  {
+    "path": "posts/2021-03-15-clustering-data-into-dendograms/",
+    "title": "Clustering Data into Dendograms",
+    "description": "I've worked with several variations of data clsutering, and have seen that heirarchical clustering with dendrograms can communicate multivariate data to wide audience.",
+    "author": [
+      {
+        "name": "Dylan",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-15",
+    "categories": [],
+    "contents": "\nHeirarchical Clustering\nReading in the LTER data\n\n\nlter_raw <- read_csv(\"sbc_lter_registered_stream_chemistry.csv\") %>% \n  mutate(tpc_uM = replace(tpc_uM, \n                        tpc_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(tdp_uM = replace(tdp_uM, \n                        tdp_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(nh4_uM = replace(nh4_uM, \n                        nh4_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(no3_uM = replace(no3_uM, \n                        no3_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(po4_uM = replace(po4_uM, \n                        po4_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(tdn_uM = replace(tpc_uM, \n                        tdn_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(tpn_uM = replace(tpn_uM, \n                        tpn_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(tpp_uM = replace(tpc_uM, \n                        tpp_uM %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n   mutate(tss_mgperLiter = replace(tss_mgperLiter, \n                        tss_mgperLiter %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>%\n  mutate(spec_cond_uSpercm = replace(spec_cond_uSpercm, \n                        spec_cond_uSpercm %in% c(\"-999.0\", \"-999\"),\n                        NA)) %>% \n  drop_na()\n\n\n\nNow that we’ve tediously switched -999 into NAs, lets make a summary table by site.\n\n\nlter_summary <- lter_raw %>% \n  group_by(site_code) %>% \n  summarize(nh4_uM = mean(nh4_uM, na.rm = TRUE), \n            no3_uM = mean(no3_uM, na.rm = TRUE), \n           po4_uM = mean(po4_uM, na.rm = TRUE),\n            tdn_uM = mean(tdn_uM, na.rm = TRUE),\n           tdp_uM = mean(tdp_uM, na.rm = TRUE),\n           tpc_uM = mean(tpc_uM, na.rm = TRUE),\n           tpn_uM = mean(tpn_uM, na.rm = TRUE),\n           tpp_uM = mean(tpp_uM, na.rm = TRUE),\n           tss_mgperLiter = mean(tss_mgperLiter, na.rm = TRUE),\n            spec_cond_uSpercm = mean(spec_cond_uSpercm, na.rm = TRUE))\n\nlter_scaled <-lter_summary %>% \n  select(2:11) %>% \n  scale()\n\n## Bringing the site_codes back into the df, after scaling all the numeric data\nrownames(lter_scaled) <- lter_summary$site_code\n\n\n\nNow, let’s find the euclidian distance\n\n\neuc_distance <- dist(lter_scaled, method = \"euclidean\")\n\n# euc_distance\n\n\n\nVisualizing Clusters\nIt’s cool to see those distances, now let’s cluster and plot them!\n\n\nhc_complete <- hclust(euc_distance, method = \"complete\")\n\n hc_complete\n\n\n\nCall:\nhclust(d = euc_distance, method = \"complete\")\n\nCluster method   : complete \nDistance         : euclidean \nNumber of objects: 6 \n\nplot(hc_complete, cex = 0.6, hang = -1) \n\n\n\nggdendrogram(hc_complete) +\n  theme_minimal() +\n  labs(x = \"Water Site Codes\",\n       title = \"Clustering Santa Barbara Water Chemistry Across Multiple Variables\", \n       y = \"Height\")\n\n\n\n\nFigure 1: Different Sites in Santa Barbara are clustered together, based on water chemistry variables in NH4 (uM) and TSS (mg per Liter). In the dendrogram, we see how multivariate chemistry of different sites is relatively similar. The closer two sites are in the dendrogram legs, the more similar their chemistry is across the range of variables. Height shows us how similar clusters are when they merge. Shorter height means more similar clusters.\n\n\n\n",
+    "preview": "posts/2021-03-15-clustering-data-into-dendograms/clustering-data-into-dendograms_files/figure-html5/unnamed-chunk-4-1.png",
+    "last_modified": "2021-03-15T12:56:14-07:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-03-15-post-3/",
+    "title": "Spatial Data Exploration",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Dylan",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-15",
+    "categories": [],
+    "contents": "\nDistill is a publication format for scientific and technical writing, native to the web.\nLearn more about using Distill at https://rstudio.github.io/distill.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-03-15T12:30:10-07:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-03-13-post-2/",
+    "title": "Text Analysis",
+    "description": "Two parts of my daily life meet in this post. I brought a mindfulness lesson from Ram Dass into data analysis.",
+    "author": [
+      {
+        "name": "Dylan",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-13",
+    "categories": [],
+    "contents": "\nAnalyzing text from Ram Dass’ “Who Are You” talk from 1976\nLet’s read in the pdf first, then I’ll clean it up a with with the packages: {stringr} {textxdata} and {pdftools}\n\n\nram_dass_raw <- pdf_text(\"ram_dass.pdf\")\n\nram_dass_tidy <- data.frame(ram_dass_raw) \n\nram_dass_tidy_2 <- ram_dass_tidy %>% \n   mutate(text_full = str_split(ram_dass_tidy, pattern = \"\\\\n\")) %>% \n  unnest(text_full) %>%\n  mutate(text_full = str_trim(text_full))\n\n\n\nThis text starts with the beginning fo the talk, so we are good on further cleaning via slice, or breaking up by section. That’s pretty nice!\nSome more cleaning\nNow let’s make it a dataframe, that we know how to wrangle and visualize. At first, it will be pretty much the same as the tidy version from a moment ago.\n\n\nram_dass_tokens <- data.frame(ram_dass_tidy_2) %>% \n  unnest_tokens(word, text_full) %>% \n  mutate(word = str_trim(word)) %>% \n dplyr::select(-ram_dass_raw)\n  \n## filter(!str_detect(word, pattern = \"it's\")) %>% \n\n\n\nCool! Now every token (word) has it’s own row, in a single column. Let’s count up each word now, and then remove ‘stop words’ from the dataframe.\n\n\nram_dass_count <- ram_dass_tokens %>% \n  count(word) %>% \n  slice(-1:-11) %>% \n  filter(!str_detect(word, pattern = \"it\")) %>% \n  filter(!str_detect(word, pattern = \"the\")) %>% \n  filter(!str_detect(word, pattern = \"you\"))\n\n\n\nWe see here that there are some numbers included as words. That’s fine for now!\nBelow, I ahve removed all the stopwords using anti_join() It is important that my token column is called “word,” because that’s how my tokens df was able to join (anti-join really,) with the stopwords list stored in dplyr\n\n\nram_dass_filtered <- ram_dass_tokens %>% \n  mutate(word = str_squish(word)) %>% \n  anti_join(stop_words)\n\n   #   filter(word != \"nthe\", \"it's\", \"your'e\", \"nyou\") %>% \n  \nnonstop_count <- ram_dass_filtered %>% \n  anti_join(stop_words) %>% \n  count(word) %>% \n  slice(-(1:11)) %>% \n    filter(!str_detect(word, pattern = \"it\")) %>% \n  filter(!str_detect(word, pattern = \"the\")) %>% \n  filter(!str_detect(word, pattern = \"you\")) %>% \n   filter(!str_detect(word, pattern = \"`\")) %>%\n   filter(!str_detect(word, pattern = \"ouspensky\")) %>% \n   filter(!str_detect(word, pattern = \"nchannel\")) \n  \n### Here I removed the 11 rows that were numbers written in the text. \n\n\n\nI want to see the top 35 words from the talk I’ve also added an angle component that will angle words once they’re visualized, by a ratio of 60:40.\n\n\ntop_words <- nonstop_count %>% \n  arrange(-n) %>% \n  slice(1:70) %>% \n  mutate(angle = 45 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))\n\n\n\nWord Cloud\nNow, Let’s visualize this in a word cloud! I’ve taken the top words from the Ram Dass talk, arranged them according to the most-said words (removing some contractions,) and am creating a word cloud where color and word size are depedent on the total count() of each word.\n\n\nram_dass_cloud <- ggplot(data = top_words, aes(label = word)) +\n  geom_text_wordcloud(aes(color = n,\n                          size = n,\n                          angle = angle),\n                      shape = \"pentagon\") +\n  scale_size_area(max_size = 9) +\n  theme_minimal() +\n    scale_color_gradient(low = \"darkred\", high = \"seagreen2\")\n  \n\nram_dass_cloud\n\n\n\n\nPart 2: Sentiment Analysis with NCR\nFirst, I’ll turn my Ram Dass nonstop (without stopwords) dataframe to only include afinn-ranked words. Below, I’ll visualize all words from the talk using the afinn sentiment analysis.\n\n\nafinn_ram <- ram_dass_filtered %>% \n  inner_join(get_sentiments(\"afinn\"))\n\nafinn_counts <- afinn_ram %>% \n  count(value)\n\n\n\nOne More Visuailzation: Lollipop chart of the Sentiment analysis\nTo visualize the sentiment analysis, I am creating a lollipop chart that shows how many words receive each afinn value: -5 (very negative words) to 5 (very positive words)\n\n\nafinn_viz <- ggplot(data = afinn_counts, aes(x = value, y = n)) +\n  geom_segment( aes(x=value, xend=value, y=0, yend=n, color = value), show.legend = FALSE) +\n   geom_point(aes(color = value), show.legend = FALSE) + \n  scale_color_gradient(low = \"darkblue\",\n                        high = \"gold\") + \n  theme_minimal() +\n  coord_flip() +\n  labs(x = \"Afinn Value (From -5 to 5)\",\n                        y = \"Total Number of Words per Value\",\n       title = \" Ram Dass' Who Are You talk (1974) Sentiment Analysis\")\n\nafinn_viz\n\n\n\n\nAll words from Ram Dass’ “Who Are You” talk, based on the Afinn Sentiment Analysis on a scale from negative sentiments (-5) to positive (5)\nEnd of Document\n\n\n\n",
+    "preview": "posts/2021-03-13-post-2/post-2_files/figure-html5/unnamed-chunk-6-1.png",
+    "last_modified": "2021-03-15T13:19:03-07:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-03-13-welcome/",
+    "title": "A Coagulating Collection of Code",
+    "description": "The idea of a \"blog\" always seemed quite foreign to me. Now that I have code to share with others, a blog seemed like the logical next step.",
+    "author": [
+      {
+        "name": "Dylan",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-13",
+    "categories": [],
+    "contents": "\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-03-13T12:17:29-08:00",
+    "input_file": {}
+  }
+]
